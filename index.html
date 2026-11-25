@@ -1,0 +1,2265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Meeting FSLDKD XV Sumatera Utara 2026</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palet Utama */
+            --teal: #52AEA3;
+            --teal-dark: #2E7D73;
+            --teal-deep: #18423D;
+            --mint: #AEDDCB;
+            --mint-soft: #E5F5EE;
+            --ivory: #F7F8F3;
+            --lime: #AADF87;
+            --lime-soft: #EEF9E5;
+            --lime-text: #2B5E18;
+            --coral-accent: #FA576B;
+
+            --surface: #FFFFFF;
+            --text-main: #183632;
+            --text-muted: #56736E;
+            --border-soft: rgba(82, 174, 163, 0.24);
+
+            --radius-xl: 26px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+
+            --shadow-soft: 0 8px 24px -6px rgba(82, 174, 163, 0.12);
+            --shadow-card: 0 14px 34px -10px rgba(82, 174, 163, 0.16);
+            --shadow-lift: 0 22px 44px -12px rgba(82, 174, 163, 0.22);
+
+            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--ivory);
+            background-image:
+                radial-gradient(circle at 8% 12%, rgba(174, 221, 203, 0.38) 0%, transparent 38%),
+                radial-gradient(circle at 92% 28%, rgba(170, 223, 135, 0.28) 0%, transparent 40%),
+                radial-gradient(circle at 50% 88%, rgba(82, 174, 163, 0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        body.splash-locked,
+        body.orbit-locked {
+            overflow: hidden;
+        }
+
+        /* =========================================================
+           ANIMASI SPRING LOGO FSLDKD & LDK AL-IZZAH
+        ========================================================= */
+        @keyframes logoSpringMove {
+            0%   { transform: scale(0.94) rotate(0deg); }
+            30%  { transform: scale(1.06) rotate(-3.5deg); }
+            60%  { transform: scale(0.98) rotate(2.5deg); }
+            82%  { transform: scale(1.02) rotate(-1deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* =========================================================
+           OVERLAY TRANSISI ORBIT 3 BOLA (5 DETIK) - BERSIH & ELEGAN
+        ========================================================= */
+        .orbit-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 12000;
+            background: radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.97) 0%, rgba(247, 248, 243, 0.96) 52%, rgba(229, 245, 238, 0.98) 100%);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.6s var(--ease-smooth), visibility 0.6s;
+        }
+
+        .orbit-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        .orbit-backdrop-glow {
+            position: absolute;
+            width: min(520px, 92vw);
+            height: min(520px, 92vw);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(82, 174, 163, 0.2) 0%, rgba(170, 223, 135, 0.16) 44%, transparent 72%);
+            animation: auraBreath 3.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes auraBreath {
+            0%, 100% { transform: scale(0.94); opacity: 0.72; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+
+        .orbit-stage {
+            position: relative;
+            width: 324px;
+            height: 324px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            transform: scale(0.84);
+            opacity: 0;
+            transition: transform 0.75s var(--ease-spring), opacity 0.6s var(--ease-smooth);
+        }
+
+        .orbit-overlay.active .orbit-stage {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Gelombang Halo Memancar dari Tengah */
+        .orbit-pulse-ring {
+            position: absolute;
+            width: 144px;
+            height: 144px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(82, 174, 163, 0.35);
+            pointer-events: none;
+            animation: sonarRipple 3.2s var(--ease-smooth) infinite;
+        }
+
+        .orbit-pulse-ring.delay {
+            border-color: rgba(170, 223, 135, 0.45);
+            animation-delay: 1.6s;
+        }
+
+        @keyframes sonarRipple {
+            0% {
+                transform: scale(1);
+                opacity: 0.75;
+            }
+            100% {
+                transform: scale(2.22);
+                opacity: 0;
+            }
+        }
+
+        /* Lingkaran Putih Bulat di Tengah: Logo FSLDK */
+        .orbit-center {
+            position: relative;
+            z-index: 6;
+            width: 144px;
+            height: 144px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2.5px solid var(--mint);
+            box-shadow:
+                0 22px 46px -10px rgba(82, 174, 163, 0.36),
+                0 0 0 8px rgba(174, 221, 203, 0.34),
+                0 0 0 16px rgba(170, 223, 135, 0.16);
+            animation: centerLogoFloat 2.8s ease-in-out infinite;
+        }
+
+        @keyframes centerLogoFloat {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.04) translateY(-3px); }
+        }
+
+        .orbit-center img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        /* 3 Lintasan Orbit dengan Ekor Komet Bercahaya */
+        .orbit-track {
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            pointer-events: none;
+        }
+
+        .orbit-track::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 50%;
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.6px), #000 calc(100% - 2px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 2.6px), #000 calc(100% - 2px));
+        }
+
+        /* Lintasan 1 (Dalam - Teal Emerald, Searah Jarum Jam) */
+        .orbit-track.track-1 {
+            width: 208px;
+            height: 208px;
+            margin-top: -104px;
+            margin-left: -104px;
+            border: 1px solid rgba(82, 174, 163, 0.22);
+            animation: spinClockwise 2.3s linear infinite;
+        }
+
+        .orbit-track.track-1::before {
+            background: conic-gradient(from 230deg, transparent 0deg, rgba(82, 174, 163, 0.12) 45deg, rgba(82, 174, 163, 0.85) 128deg, transparent 132deg);
+        }
+
+        /* Lintasan 2 (Tengah - Fresh Lime, Berlawanan Jarum Jam) */
+        .orbit-track.track-2 {
+            width: 262px;
+            height: 262px;
+            margin-top: -131px;
+            margin-left: -131px;
+            border: 1px solid rgba(170, 223, 135, 0.28);
+            animation: spinCounter 3.0s linear infinite;
+        }
+
+        .orbit-track.track-2::before {
+            background: conic-gradient(from 0deg, rgba(170, 223, 135, 0.95) 0deg, rgba(170, 223, 135, 0.16) 85deg, transparent 135deg);
+        }
+
+        /* Lintasan 3 (Luar - Coral Crimson, Searah Jarum Jam) */
+        .orbit-track.track-3 {
+            width: 316px;
+            height: 316px;
+            margin-top: -158px;
+            margin-left: -158px;
+            border: 1px dashed rgba(250, 87, 107, 0.22);
+            animation: spinClockwise 3.8s linear infinite;
+        }
+
+        .orbit-track.track-3::before {
+            background: conic-gradient(from 225deg, transparent 0deg, rgba(250, 87, 107, 0.12) 45deg, rgba(250, 87, 107, 0.85) 133deg, transparent 137deg);
+        }
+
+        @keyframes spinClockwise {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        @keyframes spinCounter {
+            from { transform: rotate(360deg); }
+            to   { transform: rotate(0deg); }
+        }
+
+        /* Bentuk 3 Bola Orbit 3D Bercahaya */
+        .orbit-ball {
+            position: absolute;
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Bola 1: Teal Emerald */
+        .orbit-ball.ball-1 {
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 32% 30%, #FFFFFF 0%, #AEDDCB 34%, #52AEA3 76%, #2E7D73 100%);
+            box-shadow:
+                0 0 12px 3px rgba(82, 174, 163, 0.78),
+                0 0 26px 6px rgba(174, 221, 203, 0.55);
+        }
+
+        /* Bola 2: Fresh Lime Green */
+        .orbit-ball.ball-2 {
+            width: 18px;
+            height: 18px;
+            background: radial-gradient(circle at 32% 30%, #FFFFFF 0%, #D9F5C4 34%, #AADF87 74%, #56A832 100%);
+            box-shadow:
+                0 0 12px 3px rgba(170, 223, 135, 0.85),
+                0 0 26px 6px rgba(170, 223, 135, 0.5);
+        }
+
+        /* Bola 3: Coral Crimson */
+        .orbit-ball.ball-3 {
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle at 32% 30%, #FFFFFF 0%, #FFB3BD 34%, #FA576B 76%, #C92A3E 100%);
+            box-shadow:
+                0 0 12px 3px rgba(250, 87, 107, 0.72),
+                0 0 24px 6px rgba(250, 87, 107, 0.42);
+        }
+
+        /* Badge FSLDK Sumatera Utara */
+        .orbit-badge {
+            position: relative;
+            z-index: 6;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFFFFF;
+            color: var(--teal-dark);
+            border: 1.5px solid var(--mint);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            padding: 8px 22px;
+            border-radius: 999px;
+            box-shadow: 0 10px 24px -8px rgba(82, 174, 163, 0.25);
+        }
+
+        .orbit-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--lime));
+            box-shadow: 0 0 8px var(--teal);
+        }
+
+        /* =========================================================
+           LAYAR PEMBUKA (LOGO FSLDKD XV + BUTTON MASUK)
+        ========================================================= */
+        .splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: radial-gradient(circle at 30% 25%, var(--ivory) 0%, #FFFFFF 48%, var(--mint-soft) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            user-select: none;
+            transition: opacity 0.5s var(--ease-smooth), visibility 0.5s;
+        }
+
+        .splash-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-aura {
+            position: absolute;
+            width: min(520px, 88vw);
+            height: min(520px, 88vw);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(170, 223, 135, 0.25) 0%, rgba(82, 174, 163, 0.14) 52%, transparent 75%);
+            animation: gentleAura 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gentleAura {
+            0%, 100% { transform: scale(0.96); opacity: 0.78; }
+            50% { transform: scale(1.04); opacity: 1; }
+        }
+
+        .splash-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+            animation: splashReveal 0.95s var(--ease-smooth) forwards;
+        }
+
+        @keyframes splashReveal {
+            from { opacity: 0; transform: translateY(26px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .splash-logo-wrap {
+            width: min(290px, 66vw);
+            margin: 0 auto 24px;
+            padding: 18px;
+            background: #FFFFFF;
+            border-radius: 32px;
+            border: 2px solid var(--mint);
+            box-shadow: 0 24px 52px -14px rgba(82, 174, 163, 0.28), 0 6px 18px rgba(170, 223, 135, 0.22);
+            cursor: pointer;
+            transform-origin: center center;
+            transition: transform 0.45s var(--ease-spring), box-shadow 0.45s var(--ease-smooth), border-color 0.35s ease;
+        }
+
+        .splash-logo-wrap:hover {
+            transform: translateY(-6px) rotate(-1.5deg) scale(1.025);
+            border-color: var(--teal);
+            box-shadow: 0 30px 60px -14px rgba(82, 174, 163, 0.36), 0 10px 24px rgba(170, 223, 135, 0.3);
+        }
+
+        .splash-logo-wrap:active {
+            transform: scale(0.94) rotate(2deg);
+            transition: transform 0.14s var(--ease-smooth);
+        }
+
+        .splash-logo-wrap.is-pressed {
+            animation: logoSpringMove 0.48s var(--ease-smooth) forwards;
+        }
+
+        .splash-logo-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 18px;
+            pointer-events: none;
+        }
+
+        .splash-bar {
+            width: 72px;
+            height: 5px;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--teal), var(--lime));
+            margin: 0 auto 18px;
+        }
+
+        .splash-title {
+            font-size: clamp(1.35rem, 3vw, 2.15rem);
+            font-weight: 800;
+            color: var(--teal-deep);
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+
+        .splash-sub {
+            font-size: 0.94rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .btn-enter {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, var(--teal) 0%, #449C91 100%);
+            color: #FFFFFF;
+            border: 2px solid var(--mint);
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 14px 30px -8px rgba(82, 174, 163, 0.45);
+            transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-smooth), border-color 0.3s ease;
+        }
+
+        .btn-enter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.65s ease;
+        }
+
+        .btn-enter:hover {
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--lime);
+            box-shadow: 0 20px 36px -8px rgba(82, 174, 163, 0.52);
+        }
+
+        .btn-enter:hover::before {
+            left: 150%;
+        }
+
+        .btn-enter:active {
+            transform: scale(0.95);
+        }
+
+        .btn-enter .icon-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--lime);
+            color: var(--teal-deep);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            transition: transform 0.35s var(--ease-spring);
+        }
+
+        .btn-enter:hover .icon-circle {
+            transform: translateX(3px) rotate(-10deg);
+        }
+
+        /* =========================================================
+           MAIN PAGE WRAPPER & SMOOTH ENTRANCE
+        ========================================================= */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.85s var(--ease-smooth) 0.1s, transform 0.85s var(--ease-smooth) 0.1s;
+        }
+
+        body:not(.splash-locked) .main-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 22px 20px 64px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.75s var(--ease-smooth), transform 0.75s var(--ease-smooth);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           STICKY TOP NAVIGATION + BUTTON KELUAR
+        ========================================================= */
+        .quick-nav {
+            position: sticky;
+            top: 14px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1.5px solid var(--mint);
+            border-radius: 999px;
+            padding: 7px 10px 7px 14px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            color: var(--teal-deep);
+            white-space: nowrap;
+        }
+
+        .nav-brand img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-links::-webkit-scrollbar { display: none; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.81rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 999px;
+            white-space: nowrap;
+            transition: all 0.25s var(--ease-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--teal-deep);
+            background: var(--mint-soft);
+        }
+
+        .btn-exit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--lime-soft);
+            color: var(--teal-deep);
+            border: 1.5px solid var(--lime);
+            padding: 7px 16px;
+            border-radius: 999px;
+            font-size: 0.81rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.32s var(--ease-spring);
+        }
+
+        .btn-exit i {
+            color: var(--teal-dark);
+            transition: transform 0.3s var(--ease-spring);
+        }
+
+        .btn-exit:hover {
+            background: var(--teal);
+            color: #FFFFFF;
+            border-color: var(--teal);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px -6px rgba(82, 174, 163, 0.42);
+        }
+
+        .btn-exit:hover i {
+            color: var(--lime);
+            transform: translateX(-2px);
+        }
+
+        .btn-exit:active {
+            transform: scale(0.94);
+        }
+
+        /* =========================================================
+           HERO HEADER + LOGO LDK AL-IZZAH UINSU
+        ========================================================= */
+        header.hero {
+            padding: 46px 34px;
+            background: linear-gradient(135deg, #3A968B 0%, var(--teal) 54%, #6CC2AE 100%);
+            border-radius: var(--radius-xl);
+            color: #FFFFFF;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            border-bottom: 5px solid var(--lime);
+        }
+
+        header.hero::before {
+            content: '';
+            position: absolute;
+            top: -42%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(170, 223, 135, 0.28) 0%, transparent 68%);
+            pointer-events: none;
+        }
+
+        header.hero::after {
+            content: '';
+            position: absolute;
+            bottom: -45%;
+            left: -12%;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(247, 248, 243, 0.22) 0%, transparent 68%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 30px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            background: rgba(247, 248, 243, 0.22);
+            border: 1px solid rgba(247, 248, 243, 0.48);
+            color: #FFFFFF;
+            padding: 5px 16px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        header.hero h1 {
+            font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        header.hero .subtitle {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--ivory);
+            margin-bottom: 14px;
+        }
+
+        header.hero .greeting {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.92);
+            margin-bottom: 22px;
+        }
+
+        .hero-meta-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .hero-meta-pills span {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.79rem;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .hero-meta-pills i {
+            color: var(--lime);
+            margin-right: 6px;
+        }
+
+        .host-showcase {
+            background: var(--ivory);
+            color: var(--text-main);
+            border-radius: 26px;
+            padding: 26px 24px;
+            text-align: center;
+            border: 2px solid var(--mint);
+            box-shadow: 0 20px 40px -12px rgba(24, 66, 61, 0.22);
+            transition: border-color 0.3s ease, box-shadow 0.35s ease;
+        }
+
+        .host-showcase:hover {
+            border-color: var(--lime);
+        }
+
+        .host-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--mint-soft);
+            color: var(--teal-dark);
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.9px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        .host-logo-single {
+            width: 172px;
+            height: 172px;
+            margin: 0 auto 16px;
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 14px;
+            border: 2px solid var(--mint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 42px -12px rgba(82, 174, 163, 0.28), 0 6px 16px rgba(170, 223, 135, 0.22);
+            cursor: pointer;
+            user-select: none;
+            transform-origin: center center;
+            transition: transform 0.45s var(--ease-spring), box-shadow 0.45s var(--ease-smooth), border-color 0.35s ease;
+        }
+
+        .host-logo-single:hover {
+            transform: translateY(-6px) rotate(-1.5deg) scale(1.03);
+            border-color: var(--teal);
+            box-shadow: 0 28px 54px -12px rgba(82, 174, 163, 0.36), 0 10px 24px rgba(170, 223, 135, 0.3);
+        }
+
+        .host-logo-single:active {
+            transform: scale(0.94) rotate(2deg);
+            transition: transform 0.14s var(--ease-smooth);
+        }
+
+        .host-logo-single.is-pressed {
+            animation: logoSpringMove 0.48s var(--ease-smooth) forwards;
+        }
+
+        .host-logo-single img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .host-name {
+            font-size: 1.06rem;
+            font-weight: 800;
+            color: var(--teal-deep);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .host-uni {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* =========================================================
+           INFO CARDS & SECTION BLOCKS
+        ========================================================= */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 44px;
+        }
+
+        .info-card {
+            background: var(--surface);
+            padding: 26px 22px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.35s var(--ease-smooth), box-shadow 0.35s var(--ease-smooth), border-color 0.3s ease;
+            border: 1.5px solid var(--mint);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lift);
+            border-color: var(--teal);
+        }
+
+        .info-icon {
+            width: 54px;
+            height: 54px;
+            background: var(--mint-soft);
+            color: var(--teal-dark);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin: 0 auto 16px;
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .info-card:hover .info-icon {
+            background: linear-gradient(135deg, var(--teal), var(--lime));
+            color: #FFFFFF;
+            transform: scale(1.08);
+        }
+
+        .info-card h3 {
+            font-size: 0.78rem;
+            color: var(--teal-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-weight: 800;
+        }
+
+        .info-card p {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--teal-deep);
+        }
+
+        .info-card small {
+            display: block;
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 0.83rem;
+        }
+
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 6px 15px;
+            border-radius: 999px;
+            background: var(--lime-soft);
+            color: var(--lime-text);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--lime);
+            transition: all 0.28s var(--ease-smooth);
+        }
+
+        .map-link:hover {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #FFFFFF;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .section-kicker {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--teal-dark);
+            background: var(--mint-soft);
+            border: 1px solid var(--mint);
+            padding: 4px 14px;
+            border-radius: 999px;
+            margin-bottom: 6px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+            font-weight: 800;
+            color: var(--teal-deep);
+            letter-spacing: -0.5px;
+        }
+
+        .split-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+            margin-bottom: 44px;
+        }
+
+        .card-panel {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            border: 1.5px solid var(--mint);
+            transition: transform 0.35s var(--ease-smooth), border-color 0.3s ease;
+        }
+
+        .card-panel:hover {
+            transform: translateY(-4px);
+            border-color: var(--teal);
+        }
+
+        .card-panel h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: var(--teal-deep);
+        }
+
+        .card-panel h3 i {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--mint-soft);
+            color: var(--teal-dark);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-list li {
+            position: relative;
+            padding-left: 26px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 0.93rem;
+        }
+
+        .task-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .task-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--teal);
+        }
+
+        /* =========================================================
+           TABS CONTAINER & RUNDOWN / DRESSCODE TABLES
+        ========================================================= */
+        .tabs-container {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-soft);
+            border: 1.5px solid var(--mint);
+            margin-bottom: 44px;
+        }
+
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 22px;
+            background: var(--ivory);
+            border: 1px solid var(--mint);
+            padding: 6px;
+            border-radius: 999px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .tab-btn:hover {
+            color: var(--teal-deep);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--teal), #459D92);
+            color: #FFFFFF;
+            box-shadow: 0 6px 14px -4px rgba(82, 174, 163, 0.38);
+        }
+
+        .rundown-tools {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: 1.5px solid var(--mint);
+            background: var(--ivory);
+            font-size: 0.86rem;
+            width: 260px;
+            outline: none;
+            transition: all 0.28s var(--ease-smooth);
+        }
+
+        .search-input:focus {
+            border-color: var(--teal);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(174, 221, 203, 0.45);
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.35s var(--ease-smooth), transform 0.35s var(--ease-smooth);
+        }
+
+        .tab-content.active {
+            display: block;
+            transform: translateY(0);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th {
+            background: var(--mint-soft);
+            color: var(--teal-deep);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 0.8px;
+            padding: 13px 16px;
+            text-align: left;
+        }
+
+        th:first-child { border-top-left-radius: var(--radius-md); border-bottom-left-radius: var(--radius-md); }
+        th:last-child { border-top-right-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); }
+
+        td {
+            padding: 15px 16px;
+            border-bottom: 1px solid rgba(174, 221, 203, 0.45);
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.92rem;
+            vertical-align: top;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--ivory);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: var(--mint-soft);
+            color: var(--teal-dark);
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.81rem;
+            white-space: nowrap;
+        }
+
+        .dur-badge {
+            display: inline-block;
+            background: var(--lime-soft);
+            color: var(--lime-text);
+            border: 1px solid rgba(170, 223, 135, 0.75);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.79rem;
+            white-space: nowrap;
+        }
+
+        .row-highlight {
+            background: rgba(238, 249, 229, 0.48);
+        }
+
+        .alert-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--lime-soft);
+            border-left: 4px solid var(--teal);
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-top: 20px;
+            color: var(--teal-deep);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .alert-box i {
+            color: var(--teal-dark);
+        }
+
+        /* =========================================================
+           ITEMS GRID (TATA TERTIB, BARANG WAJIB, KONTAK)
+        ========================================================= */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 18px;
+            margin-bottom: 44px;
+        }
+
+        .item-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: var(--shadow-soft);
+            border: 1.5px solid var(--mint);
+            transition: transform 0.35s var(--ease-smooth), border-color 0.3s ease, box-shadow 0.35s ease, background-color 0.3s ease;
+        }
+
+        .item-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .item-card.checkable {
+            cursor: pointer;
+        }
+
+        .item-card.checkable:active {
+            transform: scale(0.98);
+        }
+
+        .item-card.checked {
+            background: var(--mint-soft);
+            border-color: var(--teal);
+        }
+
+        .item-card.checked .item-title {
+            text-decoration: line-through;
+            color: var(--teal-dark);
+        }
+
+        .item-icon {
+            background: var(--mint-soft);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--teal-dark);
+            font-size: 1.12rem;
+            flex-shrink: 0;
+            transition: transform 0.35s var(--ease-spring), background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .item-card:hover .item-icon {
+            background: linear-gradient(135deg, var(--teal), var(--lime));
+            color: #FFFFFF;
+            transform: scale(1.08);
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--teal-deep);
+            margin-bottom: 3px;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--teal);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: transform 0.3s var(--ease-spring), background-color 0.25s ease;
+        }
+
+        .wa-btn i {
+            color: var(--lime);
+        }
+
+        .wa-btn:hover {
+            background: var(--teal-dark);
+            transform: translateY(-2px);
+        }
+
+        /* =========================================================
+           CLOSING & FOOTER
+        ========================================================= */
+        .quote-wrapper {
+            text-align: center;
+            padding: 44px 28px;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--ivory) 50%, var(--mint-soft) 100%);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+            border: 1.5px solid var(--mint);
+            border-top: 5px solid var(--lime);
+        }
+
+        .quote-icon {
+            font-size: 2rem;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        .quote-text {
+            font-size: clamp(1.08rem, 2.2vw, 1.32rem);
+            font-weight: 700;
+            color: var(--teal-deep);
+            line-height: 1.6;
+        }
+
+        .quote-author {
+            display: block;
+            margin-top: 14px;
+            font-weight: 700;
+            color: var(--teal-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.84rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 34px 0 8px;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 0.84rem;
+        }
+
+        @media (max-width: 860px) {
+            .hero-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            header.hero { padding: 36px 20px; }
+            .tabs-container { padding: 20px 16px; }
+            .tabs-nav { width: 100%; border-radius: 16px; }
+            .tab-btn { flex: 1; padding: 9px 10px; font-size: 0.82rem; }
+            .card-panel { padding: 22px 18px; }
+            .search-input { width: 100%; }
+            .nav-brand span { display: none; }
+            .orbit-stage { transform: scale(0.86); margin-bottom: 12px; }
+            .orbit-overlay.active .orbit-stage { transform: scale(0.86); }
+        }
+    </style>
+</head>
+<body class="splash-locked">
+
+<!-- =========================================================
+     OVERLAY TRANSISI ORBIT 3 BOLA (5 DETIK) - LOGO FSLDK
+========================================================= -->
+<div id="orbitOverlay" class="orbit-overlay" aria-hidden="true">
+    <div class="orbit-backdrop-glow"></div>
+
+    <div class="orbit-stage">
+        <!-- Gelombang Halo Memancar -->
+        <div class="orbit-pulse-ring"></div>
+        <div class="orbit-pulse-ring delay"></div>
+
+        <!-- 3 Lintasan & Bola Orbit dengan Ekor Komet Bercahaya -->
+        <div class="orbit-track track-1">
+            <span class="orbit-ball ball-1"></span>
+        </div>
+        <div class="orbit-track track-2">
+            <span class="orbit-ball ball-2"></span>
+        </div>
+        <div class="orbit-track track-3">
+            <span class="orbit-ball ball-3"></span>
+        </div>
+
+        <!-- Lingkaran Putih Bulat di Tengah: Logo FSLDK -->
+        <div class="orbit-center">
+            <img src="fsldk.png"
+                 alt="Logo FSLDK"
+                 onerror="this.style.display='none'; document.getElementById('fallbackFsldkSvg').style.display='block';">
+            <!-- Fallback Vector Logo FSLDK -->
+            <svg id="fallbackFsldkSvg" style="display:none; width:100%; height:100%;" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M110 18V118M62 72C52 104 78 134 110 118C142 134 168 104 158 72" stroke="#0E8A3E" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M44 102C40 152 74 186 110 186C146 186 180 152 176 102" stroke="#0E8A3E" stroke-width="13" stroke-linecap="round"/>
+                <path d="M64 148C92 136 128 136 156 148" stroke="#0E8A3E" stroke-width="11" stroke-linecap="round"/>
+                <text x="110" y="168" text-anchor="middle" fill="#E52421" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="22">FSLDK</text>
+            </svg>
+        </div>
+    </div>
+
+    <span class="orbit-badge">FSLDK Sumatera Utara</span>
+</div>
+
+<!-- =========================================================
+     LAYAR PEMBUKA (LOGO FSLDKD XV + BUTTON MASUK)
+========================================================= -->
+<div id="splashScreen" class="splash-screen">
+    <div class="splash-aura"></div>
+    <div class="splash-inner">
+        <div id="splashLogoBtn" class="splash-logo-wrap" role="button" tabindex="0" aria-label="Tekan Logo FSLDKD XV untuk masuk">
+            <img src="logo-fsldkd.jpg"
+                 alt="Logo FSLDKD XV Medan, Sumatera Utara 2026"
+                 onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='block';">
+
+            <!-- Fallback Vector Logo FSLDKD XV -->
+            <svg id="fallbackLogo" style="display:none; width:100%; height:auto;" viewBox="0 0 320 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M98 158C86 142 82 120 88 98C98 62 134 40 172 46" stroke="#AADF87" stroke-width="11" stroke-linecap="round"/>
+                <path d="M108 150C98 136 96 116 102 98C110 70 138 54 166 58" stroke="#52AEA3" stroke-width="8" stroke-linecap="round"/>
+                <path d="M84 166C128 144 176 110 202 32C228 84 242 132 246 178" stroke="#52AEA3" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M126 144C158 124 184 96 198 60C214 96 224 130 228 164" stroke="#AADF87" stroke-width="7" stroke-linecap="round"/>
+                <path d="M62 184C116 148 184 148 238 184" stroke="#52AEA3" stroke-width="11" stroke-linecap="round"/>
+                <path d="M74 198C124 180 182 186 248 202" stroke="#AADF87" stroke-width="10" stroke-linecap="round"/>
+                <text x="160" y="256" text-anchor="middle" fill="#18423D" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="44" letter-spacing="-1">FSLDKD XV</text>
+                <rect x="34" y="268" width="252" height="30" rx="15" fill="#52AEA3"/>
+                <text x="160" y="288" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="14" letter-spacing="0.8">MEDAN, SUMATERA UTARA 2026</text>
+            </svg>
+        </div>
+
+        <div class="splash-bar"></div>
+        <h1 class="splash-title">TECHNICAL MEETING FSLDKD XV SUMATERA UTARA</h1>
+        <p class="splash-sub">Petunjuk Pelaksanaan Peserta • Tuan Rumah UKM LDK Al-Izzah UIN Sumatera Utara</p>
+
+        <button type="button" id="splashEnterBtn" class="btn-enter">
+            <span>Masuk ke Halaman Utama</span>
+            <span class="icon-circle"><i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+    </div>
+</div>
+
+<!-- =========================================================
+     HALAMAN UTAMA PORTAL JUKLAK FSLDKD XV SUMATERA UTARA 2026
+========================================================= -->
+<div class="main-content">
+    <div class="container">
+
+        <!-- Sticky Navigation + Button Keluar -->
+        <nav class="quick-nav">
+            <div class="nav-brand">
+                <img src="fsldk.png" alt="LDK Al-Izzah" onerror="this.style.display='none';">
+                <span>FSLDKD XV SUMUT</span>
+            </div>
+
+            <div class="nav-links">
+                <a href="#informasi">Info &amp; Tuan Rumah</a>
+                <a href="#rundown">Rundown</a>
+                <a href="#dresscode">Dresscode</a>
+                <a href="#tatib">Tata Tertib</a>
+                <a href="#perlengkapan">Barang Wajib</a>
+                <a href="#mekanisme">Mekanisme</a>
+                <a href="#kontak">Kontak</a>
+            </div>
+
+            <button type="button" id="btnExitToSplash" class="btn-exit" title="Keluar ke Layar Utama">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Keluar</span>
+            </button>
+        </nav>
+
+        <!-- Hero Header + Logo LDK Al-Izzah UINSU -->
+        <header class="hero reveal">
+            <div class="hero-grid">
+                <div>
+                    <div class="badge">Petunjuk Pelaksanaan • Technical Meeting</div>
+                    <h1>FSLDKD XV SUMATERA UTARA 2026</h1>
+                    <p class="subtitle">Forum Silaturahmi Lembaga Dakwah Kampus Daerah XV Sumatera Utara</p>
+                    <p class="greeting">
+                        Selamat datang kepada seluruh delegasi di Forum Silaturahim Lembaga Dakwah Kampus Daerah (FSLDKD) XV Sumatera Utara. Mohon perhatikan detail pelaksanaan berikut untuk kelancaran bersama.
+                    </p>
+                    <div class="hero-meta-pills">
+                        <span><i class="fa-solid fa-building-columns"></i>Jl. William Iskandar Psr. V, Medan Estate 20731</span>
+                        <span><i class="fa-solid fa-envelope"></i>fsldkdsumut@gmail.com</span>
+                        <span><i class="fa-brands fa-whatsapp"></i>082276134089 (Nabila / Sek. Panitia)</span>
+                    </div>
+                </div>
+
+                <!-- Showcase Tuan Rumah: Logo UKM LDK Al-Izzah Interaktif -->
+                <div class="host-showcase">
+                    <div class="host-tag"><i class="fa-solid fa-award"></i> Tuan Rumah Pelaksana</div>
+                    <div id="ldkLogoBtn" class="host-logo-single" role="button" tabindex="0" title="Klik Logo UKM LDK Al-Izzah UIN Sumatera Utara">
+                        <img src="LDK.jpg" alt="Logo UKM LDK Al-Izzah UIN Sumatera Utara">
+                    </div>
+                    <div class="host-name">UKM LDK AL-IZZAH</div>
+                    <div class="host-uni">Universitas Islam Negeri Sumatera Utara</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 1. Waktu, Tempat & Sifat Forum -->
+        <div id="informasi" class="info-grid reveal">
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                <h3>Waktu Pelaksanaan</h3>
+                <p>Jum'at - Ahad, 27 - 29 Nov 2026</p>
+                <small>Pembukaan Jum'at, 27 November 2026 (07.00 WIB)</small>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <h3>Lokasi Kegiatan</h3>
+                <p>BPSDM Sumut</p>
+                <small>Jl. Ngalengko No. 1, Perintis, Kec. Medan Timur, Kota Medan 20236</small>
+                <a href="https://maps.app.goo.gl/tYquKh3fJr1FvZvh7" target="_blank" rel="noopener" class="map-link">
+                    <i class="fa-solid fa-map-location-dot"></i> Buka Google Maps
+                </a>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Sifat Forum</h3>
+                <p>Forum Internal LDK</p>
+                <small>Seluruh sidang bersifat tertutup, sedangkan seminar dan seremoni boleh terbuka.</small>
+            </div>
+        </div>
+
+        <!-- Tujuan Kegiatan & Deskripsi Kegiatan Harian -->
+        <div class="split-section reveal">
+            <div class="card-panel">
+                <h3><i class="fa-solid fa-bullseye"></i> Tujuan Kegiatan</h3>
+                <ul class="task-list">
+                    <li>Pengesahan LPJ Puskomda.</li>
+                    <li>Pemilihan Puskomda dan Rapimda.</li>
+                    <li>Empat seminar utama.</li>
+                    <li>Penguatan ukhuwah antar-LDK.</li>
+                </ul>
+            </div>
+
+            <div class="card-panel">
+                <h3><i class="fa-solid fa-compass"></i> Deskripsi Kegiatan Harian</h3>
+                <ul class="task-list">
+                    <li><strong>Hari 1 (Jum'at, 27 Nov 2026):</strong> Fokus pada kedatangan dan registrasi delegasi, pembukaan resmi (Opening Ceremony), Seminar Kebangsaan, dan Penyerahan Forum.</li>
+                    <li><strong>Hari 2 (Sabtu, 28 Nov 2026):</strong> Agenda padat yang meliputi Seminar Kepemimpinan, Sidang Pleno Komisi, Pengesahan Sidang Pleno Komisi FSLDK, Sidang Pemilihan Ketua Umum FSLDK 2027-2028, Pemilihan Tuan Rumah RAPIMDA (pengumuman hasil sidang, pelantikan Puskomda terpilih, serah terima), Seminar Kreativitas LDK, Grand Closing, serta Malam Keakraban.</li>
+                    <li><strong>Hari 3 (Ahad, 29 Nov 2026):</strong> Kegiatan berisi Outbound, Sosialisasi Perda, check-out penginapan, foto bersama, dan kepulangan delegasi.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. Rundown Kegiatan Lengkap -->
+        <div id="rundown" class="section-header reveal">
+            <span class="section-kicker">Susunan Acara Resmi</span>
+            <h2>Rundown Kegiatan Lengkap</h2>
+        </div>
+
+        <div class="tabs-container reveal">
+            <div class="rundown-tools">
+                <div class="tabs-nav" style="margin: 0;">
+                    <button class="tab-btn active" onclick="switchTab(event, 'day1')">Jum'at, 27 Nov</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'day2')">Sabtu, 28 Nov</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'day3')">Ahad, 29 Nov</button>
+                </div>
+                <input type="search" id="rundownFilter" class="search-input" placeholder="Cari agenda / seminar / sidang...">
+            </div>
+
+            <!-- HARI 1 -->
+            <div id="day1" class="tab-content active" style="opacity: 1;">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 145px;">Waktu</th>
+                                <th style="width: 145px;">Durasi</th>
+                                <th>Kegiatan (Jum'at, 27 November 2026)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">07.00-12.00</span></td>
+                                <td><span class="dur-badge">5 Jam</span></td>
+                                <td>Kedatangan, Registrasi, dan check-in delegasi (LO mendampingi), Dhuha</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">12.00-13.00</span></td>
+                                <td><span class="dur-badge">1 Jam</span></td>
+                                <td>ISHOMA (Dzuhur)</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">13.00-13.30</span></td>
+                                <td><span class="dur-badge">30 Menit</span></td>
+                                <td>Mobilisasi Peserta Ke Aula</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">13.30-15.30</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Opening Ceremony:</strong> Pembukaan Resmi, Menyanyikan Lagu Indonesia Raya &amp; Mars FSLDK, Tilawah, Kata Sambutan dari (Rektor/Wakil Rektor UIN Sumatera Utara, Ketua Panitia, Ketua Umum FSLDK Sumut, dan Pembina FSLDK Sumut), Doa.</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">15.30-16.00</span></td>
+                                <td><span class="dur-badge">30 Menit</span></td>
+                                <td>Shalat Ashar</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">16.00-18.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Seminar 1</strong> "Nasionalisme dalam Bingkai Dakwah, Pemuda Muslim sebagai Nakhoda Bangsa"</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">18.00-20.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td>ISHOMATIL</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">20.00-22.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Penyerahan Forum</strong> dari Panitia Ke Pimpinan Sidang Sementara (Pembahasan Tata Tertib Persidangan)</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">22.00-23.00</span></td>
+                                <td><span class="dur-badge">1 Jam</span></td>
+                                <td>Mobilisasi ke Penginapan</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">23.00-04.30</span></td>
+                                <td><span class="dur-badge">5 Jam 30 Menit</span></td>
+                                <td>Istirahat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- HARI 2 -->
+            <div id="day2" class="tab-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 145px;">Waktu</th>
+                                <th style="width: 145px;">Durasi</th>
+                                <th>Kegiatan (Sabtu, 28 November 2026)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">04.30-05.45</span></td>
+                                <td><span class="dur-badge">1 Jam 15 Menit</span></td>
+                                <td>Qiyamullail (Opsional) dan Shalat Shubuh Berjamaah, Kultum, Al-Matsurat Pagi</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">05.45-07.45</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td>Persiapan Pribadi, Mobilisasi Peserta Ke Aula, Dhuha, Riyadhoh Ringan dan Sarapan Pagi</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">07.45-08.00</span></td>
+                                <td><span class="dur-badge">15 Menit</span></td>
+                                <td><strong>Pembukaan Forum</strong> oleh Pimpinan Sidang</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">08.00-12.00</span></td>
+                                <td><span class="dur-badge">4 Jam</span></td>
+                                <td><strong>Sidang Pleno Komisi</strong> dan Pengesahan Sidang Pleno Komisi FSLDK</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">12.00-13.15</span></td>
+                                <td><span class="dur-badge">1 Jam 30 Menit</span></td>
+                                <td>ISHOMA (Dzuhur)</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">13.15-13.30</span></td>
+                                <td><span class="dur-badge">15 Menit</span></td>
+                                <td>Ice Breaking</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">13.30-15.30</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Seminar 2</strong> "Pemimpin Muda yang Tangguh, Menjaga Mental dan Amanah dalam Dakwah Kampus"</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">15.30-16.00</span></td>
+                                <td><span class="dur-badge">30 Menit</span></td>
+                                <td>Shalat Ashar</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">16.00-18.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Pemilihan Ketua Umum FSLDK 2027-2028</strong> dan Pemilihan Tuan Rumah RAPIMDA</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">18.00-20.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td>ISHOMATIL</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">20.00-22.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Seminar 3</strong> "Dari Konten ke Gerakan, Membangun LDK yang Profesional"</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">22.00-23.00</span></td>
+                                <td><span class="dur-badge">1 Jam</span></td>
+                                <td><strong>Grand Closing</strong> &amp; Mobilisasi ke Penginapan</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">23.00-04.30</span></td>
+                                <td><span class="dur-badge">5 Jam 30 Menit</span></td>
+                                <td>Istirahat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- HARI 3 -->
+            <div id="day3" class="tab-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 145px;">Waktu</th>
+                                <th style="width: 145px;">Durasi</th>
+                                <th>Kegiatan (Ahad, 29 November 2026)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">04.30-05.45</span></td>
+                                <td><span class="dur-badge">1 Jam 15 Menit</span></td>
+                                <td>Qiyamullail (Opsional) dan Shalat Shubuh Berjamaah, Kultum, Al-Matsurat Pagi</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">05.45-07.45</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td>Mobilisasi Peserta Ke Area Outbound, Dhuha, Riyadhoh Ringan dan Sarapan Pagi</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">07.45-10.00</span></td>
+                                <td><span class="dur-badge">2 Jam 15 Menit</span></td>
+                                <td><strong>Outbound</strong></td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">10.00-11.00</span></td>
+                                <td><span class="dur-badge">1 Jam</span></td>
+                                <td>Persiapan Pribadi (Bersih-Bersih)</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">11.00-12.15</span></td>
+                                <td><span class="dur-badge">1 Jam 15 Menit</span></td>
+                                <td>Setoran dan Pengumpulan Amalan Yaumiyah</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">12.15-13.15</span></td>
+                                <td><span class="dur-badge">1 Jam 15 Menit</span></td>
+                                <td>ISHOMA (Dzuhur)</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">13.15-13.30</span></td>
+                                <td><span class="dur-badge">15 Menit</span></td>
+                                <td>Ice Breaking</td>
+                            </tr>
+                            <tr class="rundown-row row-highlight">
+                                <td><span class="day-badge">13.30-15.30</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td><strong>Seminar 4</strong> "Sosialisasi Perda"</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">15.30-16.00</span></td>
+                                <td><span class="dur-badge">30 Menit</span></td>
+                                <td>Sholat Ashar</td>
+                            </tr>
+                            <tr class="rundown-row">
+                                <td><span class="day-badge">16.00-18.00</span></td>
+                                <td><span class="dur-badge">2 Jam</span></td>
+                                <td>Check-out dan Kepulangan delegasi (LO mendampingi)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <i class="fa-solid fa-clock-rotate-left" style="font-size: 1.2rem;"></i>
+                <span><strong>Catatan Jadwal:</strong> Rundown bersifat sementara dan perubahan diumumkan melalui Liaison Officer (LO).</span>
+            </div>
+        </div>
+
+        <!-- 4. Ketentuan Dresscode -->
+        <div id="dresscode" class="section-header reveal">
+            <span class="section-kicker">Ketentuan Pakaian</span>
+            <h2>Panduan Pakaian (Dresscode)</h2>
+        </div>
+
+        <div class="tabs-container reveal">
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab(event, 'dc-peserta')">Peserta</button>
+                <button class="tab-btn" onclick="switchTab(event, 'dc-panitia')">Panitia</button>
+            </div>
+
+            <!-- Dresscode Peserta -->
+            <div id="dc-peserta" class="tab-content active" style="opacity: 1;">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 170px;">Hari / Agenda</th>
+                                <th>Ikhwan</th>
+                                <th>Akhwat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="day-badge">Hari 1 (Jum'at)</span></td>
+                                <td>Jas Almamater Kampus + Celana Keper Hitam + Baju Kemeja Putih + Sepatu.</td>
+                                <td>Jas Almamater Kampus + Rok Hitam + Baju Kemeja Putih + Jilbab Hitam + Sepatu.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="day-badge">Hari 2 (Sabtu)</span></td>
+                                <td>PDH/Jaket LDK + Celana Keper Hitam + Sepatu.</td>
+                                <td>PDH/Jaket LDK + Rok Hitam + (Jilbab disesuaikan dengan PDH/Jaket masing-masing LDK) + Sepatu.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="day-badge">Hari 3 (Ahad)</span></td>
+                                <td>Baju Kaos Hitam + Celana Training + Sepatu.</td>
+                                <td>Gamis Hitam + Jilbab Biru + Sepatu.</td>
+                            </tr>
+                            <tr class="row-highlight">
+                                <td><span class="dur-badge">DC Outbound</span></td>
+                                <td>Baju Kaos Hitam + Celana Training + Sepatu.</td>
+                                <td>Pakaian Bebas/Kaos/Tidak Ditentukan, Tetapi harus (Sopan, Menutup Aurat, Dilarang Pakai Celana Bagi Yang Akhwat) + Jilbab Biru + Minset Tangan (Opsional) + Sepatu.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Dresscode Panitia -->
+            <div id="dc-panitia" class="tab-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 170px;">Hari / Agenda</th>
+                                <th>Ikhwan</th>
+                                <th>Akhwat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="day-badge">Hari 1 (Jum'at)</span></td>
+                                <td>Kemeja Hitam + Celana Coksu/Cream + Sepatu.</td>
+                                <td>Gamis Hitam + Jilbab Maroon + Sepatu.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="day-badge">Hari 2 (Sabtu)</span></td>
+                                <td>PDH/Jaket LDK + Celana Keper Hitam + Sepatu.</td>
+                                <td>PDH/Jaket LDK + Jilbab Army + Sepatu.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="day-badge">Hari 3 (Ahad)</span></td>
+                                <td>Batik + Celana Keper Hitam + Sepatu.</td>
+                                <td>Batik + Jilbab Hitam + Sepatu.</td>
+                            </tr>
+                            <tr class="row-highlight">
+                                <td><span class="dur-badge">DC Outbound</span></td>
+                                <td>Baju Kaos Hitam + Celana Training + Sepatu.</td>
+                                <td>Pakaian Bebas/Kaos/Tidak Ditentukan, Tetapi harus (Sopan, Menutup Aurat, Dilarang Pakai Celana Bagi Yang Akhwat) + Jilbab Hitam + Minset Tangan (Opsional) + Sepatu.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <i class="fa-solid fa-id-badge" style="font-size: 1.25rem;"></i>
+                <span><strong>Perhatian:</strong> Panitia dan Peserta <strong>wajib menggunakan ID Card</strong> (dipakai setiap hari).</span>
+            </div>
+        </div>
+
+        <!-- 5. Tata Tertib Peserta -->
+        <div id="tatib" class="section-header reveal">
+            <span class="section-kicker">Disiplin &amp; Etika Forum</span>
+            <h2>Tata Tertib Peserta</h2>
+        </div>
+
+        <div class="items-grid reveal">
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                <div>
+                    <div class="item-title">Ketepatan Waktu</div>
+                    <div class="item-desc">Peserta diharapkan hadir di lokasi 15 menit sebelum durasi mobilisasi berakhir.</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-user-check"></i></div>
+                <div>
+                    <div class="item-title">Kedisiplinan</div>
+                    <div class="item-desc">Wajib mengikuti seluruh rangkaian acara, termasuk sidang yang berlangsung hingga malam hari.</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-handshake"></i></div>
+                <div>
+                    <div class="item-title">Etika</div>
+                    <div class="item-desc">Menjaga kebersihan, kesopanan, dan adab pergaulan ikhwan dan akhwat.</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-bed"></i></div>
+                <div>
+                    <div class="item-title">Istirahat</div>
+                    <div class="item-desc">Waktu istirahat (23:00 - 04:30) wajib digunakan di penginapan masing-masing.</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-volume-xmark"></i></div>
+                <div>
+                    <div class="item-title">Ketertiban</div>
+                    <div class="item-desc">Peserta DILARANG mengganggu sesi resmi, termasuk berbicara atau bermain gawai.</div>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-eye-slash"></i></div>
+                <div>
+                    <div class="item-title">Kerahasiaan Sidang</div>
+                    <div class="item-desc">Isi sidang tertutup tidak boleh didokumentasikan atau disebarkan tanpa izin.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Barang Bawaan Wajib -->
+        <div id="perlengkapan" class="section-header reveal">
+            <span class="section-kicker">Klik Item Untuk Menandai Kesiapan</span>
+            <h2>Barang Bawaan Wajib</h2>
+        </div>
+
+        <div class="items-grid reveal" style="margin-bottom: 20px;">
+            <div class="item-card checkable" data-pack="p1" onclick="togglePack(this)">
+                <div class="item-icon"><i class="fa-solid fa-shirt"></i></div>
+                <div>
+                    <div class="item-title">Pakaian</div>
+                    <div class="item-desc">Sesuai dresscode dan pakaian ganti secukupnya.</div>
+                </div>
+            </div>
+            <div class="item-card checkable" data-pack="p2" onclick="togglePack(this)">
+                <div class="item-icon"><i class="fa-solid fa-book-quran"></i></div>
+                <div>
+                    <div class="item-title">Perlengkapan Ibadah</div>
+                    <div class="item-desc">Termasuk Al-Qur'an, Al-Matsurat, dan perlengkapan lainnya untuk menunjang agenda ISHOMA yang terjadwal.</div>
+                </div>
+            </div>
+            <div class="item-card checkable" data-pack="p3" onclick="togglePack(this)">
+                <div class="item-icon"><i class="fa-solid fa-bottle-water"></i></div>
+                <div>
+                    <div class="item-title">Alat Tulis, Gadget, Tumbler &amp; Alat Mandi</div>
+                    <div class="item-desc">Untuk keperluan mencatat selama rangkaian acara dan kebutuhan pribadi.</div>
+                </div>
+            </div>
+            <div class="item-card checkable" data-pack="p4" onclick="togglePack(this)">
+                <div class="item-icon"><i class="fa-solid fa-kit-medical"></i></div>
+                <div>
+                    <div class="item-title">Dokumen &amp; Obat Pribadi</div>
+                    <div class="item-desc">Obat-obatan Pribadi, KTM, Kartu Identitas Lainnya, dan Surat Mandat Delegasi.</div>
+                </div>
+            </div>
+            <div class="item-card checkable" data-pack="p5" onclick="togglePack(this)">
+                <div class="item-icon"><i class="fa-solid fa-flag"></i></div>
+                <div>
+                    <div class="item-title">Bendera LDK</div>
+                    <div class="item-desc">Membawa Bendera masing-masing LDK.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-box reveal" style="margin-top: 0; margin-bottom: 44px;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.2rem;"></i>
+            <span><strong>Note:</strong> Diharapkan kepada seluruh peserta dimohon untuk menjaga barang bawaan masing-masing. Panitia tidak bertanggung jawab atas kehilangan barang. Syukron atas perhatiannya.</span>
+        </div>
+
+        <!-- 7, 8 & 9. Mekanisme Kesehatan, LO & Petunjuk Penting Lainnya -->
+        <div id="mekanisme" class="section-header reveal">
+            <span class="section-kicker">Prosedur Lapangan</span>
+            <h2>Kesehatan, LO &amp; Petunjuk Penting</h2>
+        </div>
+
+        <div class="split-section reveal">
+            <div class="card-panel">
+                <h3><i class="fa-solid fa-heart-pulse"></i> Mekanisme Kesehatan</h3>
+                <ul class="task-list">
+                    <li><strong>Kondisi Fisik:</strong> Peserta wajib berangkat dalam kondisi sehat.</li>
+                    <li><strong>Tim Medis:</strong> Panitia menyediakan posko kesehatan di venue dan penginapan.</li>
+                    <li><strong>Obat Pribadi:</strong> Peserta dengan riwayat penyakit khusus wajib membawa obat pribadi dan melapor kepada LO masing-masing.</li>
+                </ul>
+            </div>
+
+            <div class="card-panel">
+                <h3><i class="fa-solid fa-headset"></i> Mekanisme Liaison Officer (LO)</h3>
+                <ul class="task-list">
+                    <li><strong>Pendampingan:</strong> Setiap delegasi didampingi oleh seorang LO sejak sebelum berangkat, yang bertugas sebagai jembatan informasi antara peserta dan panitia.</li>
+                    <li><strong>Komunikasi:</strong> Peserta wajib masuk ke dalam grup komunikasi yang dibuat oleh LO dan merespons instruksi terkait waktu kumpul.</li>
+                </ul>
+            </div>
+
+            <div class="card-panel">
+                <h3><i class="fa-solid fa-circle-info"></i> Petunjuk Penting Lainnya</h3>
+                <ul class="task-list">
+                    <li><strong>Mobilisasi:</strong> Pergerakan antar venue dan penginapan dilakukan bersama-sama sesuai jadwal yang diatur panitia.</li>
+                    <li><strong>Check Out:</strong> Check-out penginapan dilakukan pada hari Senin pagi s/d siang sebelum Closing Ceremony.</li>
+                    <li><strong>Perubahan Jadwal:</strong> Rundown bersifat sementara dan perubahan diumumkan melalui LO.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 10. Kontak Panitia -->
+        <div id="kontak" class="section-header reveal">
+            <span class="section-kicker">Pusat Koordinasi</span>
+            <h2>Kontak Panitia Pelaksana</h2>
+        </div>
+
+        <div class="items-grid reveal">
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-file-signature"></i></div>
+                <div>
+                    <div class="item-title">Astri (Korbid. ADM)</div>
+                    <div class="item-desc">Pendaftaran dan Administrasi<br><strong>081264070145</strong></div>
+                    <a href="https://wa.me/6281264070145?text=Assalamu'alaikum%20Kak%20Astri%20(Korbid.%20ADM),%20saya%20delegasi%20peserta%20FSLDKD%20XV%20Sumatera%20Utara%202026." target="_blank" rel="noopener" class="wa-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-people-arrows"></i></div>
+                <div>
+                    <div class="item-title">Dela (Korbid. LO)</div>
+                    <div class="item-desc">LO dan Kedatangan<br><strong>081360112781</strong></div>
+                    <a href="https://wa.me/6281360112781?text=Assalamu'alaikum%20Kak%20Dela%20(Korbid.%20LO),%20saya%20delegasi%20peserta%20FSLDKD%20XV%20Sumatera%20Utara%202026." target="_blank" rel="noopener" class="wa-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <div>
+                    <div class="item-title">Ridho (Ketua Umum)</div>
+                    <div class="item-desc">UKM LDK Al-Izzah UINSU<br><strong>089653612482</strong></div>
+                    <a href="https://wa.me/6289653612482?text=Assalamu'alaikum%20Bang%20Ridho%20(Ketum%20LDK%20Al-Izzah),%20saya%20delegasi%20peserta%20FSLDKD%20XV%20Sumatera%20Utara%202026." target="_blank" rel="noopener" class="wa-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-user-pen"></i></div>
+                <div>
+                    <div class="item-title">Nabila (Sekretaris Umum)</div>
+                    <div class="item-desc">UKM LDK Al-Izzah UINSU<br><strong>082276134089</strong></div>
+                    <a href="https://wa.me/6282276134089?text=Assalamu'alaikum%20Kak%20Nabila%20(Sekum%20LDK%20Al-Izzah),%20saya%20delegasi%20peserta%20FSLDKD%20XV%20Sumatera%20Utara%202026." target="_blank" rel="noopener" class="wa-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                <div>
+                    <div class="item-title">Miko (Korbid. Acara)</div>
+                    <div class="item-desc">Contact Person Acara<br><strong>083899748090</strong></div>
+                    <a href="https://wa.me/6283899748090?text=Assalamu'alaikum%20Bang%20Miko%20(Korbid.%20Acara),%20saya%20delegasi%20peserta%20FSLDKD%20XV%20Sumatera%20Utara%202026." target="_blank" rel="noopener" class="wa-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                <div>
+                    <div class="item-title">Patma (Sekbid. Acara)</div>
+                    <div class="item-desc">Contact Person Acara<br><strong>081261171434</strong></div>
+                    <a href="https://wa.me/6281261171434?text=Assalamu'alaikum%20Kak%20Patma%20(Sekbid.%20Acara),%20saya%20delegasi%20peserta%20FSLDKD%20XV%20Sumatera%20Utara%202026." target="_blank" rel="noopener" class="wa-btn">
+                        <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penutup & Doa -->
+        <div class="quote-wrapper reveal">
+            <div class="quote-icon"><i class="fa-solid fa-hands-praying"></i></div>
+            <div class="quote-text">
+                "Semoga Allah memberikan kelancaran dan kesehatan bagi seluruh pejuang dakwah di FSLDKD XV Sumatera Utara!"
+            </div>
+            <span class="quote-author">Panitia Pelaksana FSLDKD XV Sumatera Utara 2026 • ldkalizzahsujuara@gmail.com</span>
+        </div>
+
+        <footer class="reveal">
+            JAZAAKUMULLAH KHAIRAN
+        </footer>
+
+    </div>
+</div>
+
+<script>
+    // 1. Transisi Orbit 3 Bola (5 Detik) dengan Logo FSLDK di Tengah
+    const splash = document.getElementById('splashScreen');
+    const logoBtn = document.getElementById('splashLogoBtn');
+    const enterBtn = document.getElementById('splashEnterBtn');
+    const exitBtn = document.getElementById('btnExitToSplash');
+    const ldkLogoBtn = document.getElementById('ldkLogoBtn');
+    const orbitOverlay = document.getElementById('orbitOverlay');
+
+    let isTransitioning = false;
+
+    function playSpringWiggle(element) {
+        element.classList.remove('is-pressed');
+        void element.offsetWidth;
+        element.classList.add('is-pressed');
+    }
+
+    function runFiveSecondOrbit(mode) {
+        const duration = 5000;
+
+        document.body.classList.add('orbit-locked');
+        orbitOverlay.classList.add('active');
+
+        // Pertengahan 5 detik (2.5 detik): tukar halaman di balik layar orbit secara mulus
+        setTimeout(() => {
+            if (mode === 'masuk') {
+                splash.classList.add('hide');
+                document.body.classList.remove('splash-locked');
+            } else {
+                splash.classList.remove('hide');
+                document.body.classList.add('splash-locked');
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }, 2500);
+
+        // Setelah penuh 5 detik (5000 ms), tutup layar orbit
+        setTimeout(() => {
+            orbitOverlay.classList.remove('active');
+            document.body.classList.remove('orbit-locked');
+            logoBtn.classList.remove('is-pressed');
+
+            if (mode === 'masuk') {
+                initReveal();
+            }
+            isTransitioning = false;
+        }, duration);
+    }
+
+    function enterMainPage() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        playSpringWiggle(logoBtn);
+        setTimeout(() => {
+            runFiveSecondOrbit('masuk');
+        }, 320);
+    }
+
+    function exitToSplash() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        runFiveSecondOrbit('keluar');
+    }
+
+    logoBtn.addEventListener('click', enterMainPage);
+    enterBtn.addEventListener('click', enterMainPage);
+    exitBtn.addEventListener('click', exitToSplash);
+
+    logoBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            enterMainPage();
+        }
+    });
+
+    // Animasi Logo LDK Al-Izzah saat diklik / ditekan
+    ldkLogoBtn.addEventListener('click', () => {
+        playSpringWiggle(ldkLogoBtn);
+        setTimeout(() => {
+            ldkLogoBtn.classList.remove('is-pressed');
+        }, 520);
+    });
+
+    ldkLogoBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            playSpringWiggle(ldkLogoBtn);
+        }
+    });
+
+    // 2. Smooth Scroll Reveal
+    function initReveal() {
+        const items = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        items.forEach((el) => observer.observe(el));
+    }
+
+    // 3. Smooth Tab Switcher (Rundown & Dresscode)
+    function switchTab(event, tabId) {
+        const container = event.currentTarget.closest('.tabs-container');
+        const contents = container.querySelectorAll('.tab-content');
+        const buttons = container.querySelectorAll('.tab-btn');
+
+        contents.forEach((content) => {
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.classList.remove('active');
+            }, 250);
+        });
+
+        buttons.forEach((btn) => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        setTimeout(() => {
+            const target = document.getElementById(tabId);
+            target.classList.add('active');
+            setTimeout(() => {
+                target.style.opacity = '1';
+            }, 40);
+        }, 250);
+    }
+
+    // 4. Live Search Filter pada Tabel Rundown
+    const filterInput = document.getElementById('rundownFilter');
+    filterInput.addEventListener('input', () => {
+        const q = filterInput.value.toLowerCase().trim();
+        document.querySelectorAll('.rundown-row').forEach((row) => {
+            row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+    });
+
+    // 5. Checklist Barang Bawaan Wajib
+    const PACK_STORAGE = 'fsldkd_xv_checklist';
+    const savedPack = JSON.parse(localStorage.getItem(PACK_STORAGE) || '{}');
+
+    document.querySelectorAll('.item-card.checkable').forEach((card) => {
+        if (savedPack[card.dataset.pack]) {
+            card.classList.add('checked');
+        }
+    });
+
+    function togglePack(card) {
+        card.classList.toggle('checked');
+        const current = {};
+        document.querySelectorAll('.item-card.checkable').forEach((c) => {
+            current[c.dataset.pack] = c.classList.contains('checked');
+        });
+        localStorage.setItem(PACK_STORAGE, JSON.stringify(current));
+    }
+</script>
+
+</body>
+</html>
